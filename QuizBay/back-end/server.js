@@ -5,9 +5,9 @@ const session = require('express-session');
 const passport = require('passport');
 
 
-/*const apiRoutes = require('/api');
-const authRoutes = require('/auth');
-const authMiddleware = require('/authMiddleware');*/
+const apiRoutes = require('./api');
+const authRoutes = require('./auth');
+const authMiddleware = require('./authMiddleware');
 
 
 app.use(bodyParser.json());
