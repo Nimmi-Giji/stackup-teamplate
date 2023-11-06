@@ -1,35 +1,45 @@
 import React, { Component } from 'react';
 import Question from './Question';
+import axios from 'axios';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      questions: [
-        {
-          id: 1,
-          text: 'What is the capital of France?',
-          options: ['Paris', 'London', 'Berlin', 'Madrid'],
-          correct: 'Paris',
-        },
-        // Add more questions here
-      ],
+      questions: [],
       currentQuestionIndex: 0,
       score: 0,
     };
   }
 
-  handleAnswer = (selectedOption) => {
+  componentDidMount() {
+    // Fetch questions from OpenTDB API
+    axios
+      .get('https://opentdb.com/api.php?amount=10&type=multiple') // Modify the URL as needed
+      .then((response) => {
+        const fetchedQuestions = response.data.results;
+        this.setState({
+          questions: fetchedQuestions,
+        });
+      })
+      .catch((error) => {
+        console.error('Error fetching questions:', error);
+      });
+  }
+
+  handleAnswer = (selectedOption, correctAnswer) => {
     const { currentQuestionIndex, questions, score } = this.state;
-    if (selectedOption === questions[currentQuestionIndex].correct) {
+  
+    if (selectedOption === correctAnswer) {
       this.setState({
         score: score + 1,
       });
     }
+  
     this.setState({
       currentQuestionIndex: currentQuestionIndex + 1,
     });
-  };
+  }
 
   render() {
     const { questions, currentQuestionIndex, score } = this.state;
