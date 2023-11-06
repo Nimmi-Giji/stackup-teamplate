@@ -1,0 +1,29 @@
+{
+  "name": "quizbay",
+  "version": "1.0.0",
+  "description": "quizzing platform",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "quiz",
+    "platform",
+    "web"
+  ],
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^6.0.0",
+    "passport": "^0.5.3",
+    "passport-local": "^1.0.0",
+    "body-parser": "^1.19.0",
+    "express-session": "^1.17.1"
+  },
+  "devDependencies": {
+    "mocha": "^9.0.0"
+  }
+
+}
