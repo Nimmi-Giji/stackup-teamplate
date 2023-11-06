@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Question from './Question';
-import axios from 'axios';
+import { getAllQuizzes } from './supabaseFunctions'; // Update the path as needed.
 
 class App extends Component {
   constructor(props) {
@@ -13,17 +13,18 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // Fetch questions from OpenTDB API
-    axios
-      .get('https://opentdb.com/api.php?amount=10&type=multiple') // Modify the URL as needed
-      .then((response) => {
-        const fetchedQuestions = response.data.results;
-        this.setState({
-          questions: fetchedQuestions,
-        });
+    // Fetch quiz questions from Supabase
+    getAllQuizzes()
+      .then((quizzes) => {
+        if (quizzes.length > 0) {
+          const fetchedQuestions = quizzes[0].questions; // Modify this based on your Supabase schema
+          this.setState({
+            questions: fetchedQuestions,
+          });
+        }
       })
       .catch((error) => {
-        console.error('Error fetching questions:', error);
+        console.error('Error fetching quiz questions:', error);
       });
   }
 
@@ -44,7 +45,7 @@ class App extends Component {
   render() {
     const { questions, currentQuestionIndex, score } = this.state;
     const currentQuestion = questions[currentQuestionIndex];
-
+  
     return (
       <div className="quiz-app">
         {currentQuestionIndex < questions.length ? (
@@ -61,6 +62,7 @@ class App extends Component {
       </div>
     );
   }
+  
 }
 
 export default App;
