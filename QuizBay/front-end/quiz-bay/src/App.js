@@ -41,6 +41,7 @@ class App extends Component {
     });
 
     // Fetch quiz questions from Supabase
+    <button onClick={signOut}>Sign Out</button>
     getAllQuizzes()
       .then((quizzes) => {
         if (quizzes.length > 0) {
@@ -76,12 +77,20 @@ class App extends Component {
   render() {
     const { questions, currentQuestionIndex, score } = this.state;
     const currentQuestion = questions[currentQuestionIndex];
+<<<<<<< HEAD
     const user = supabase.auth.user();
 
     if (!user) {
       return <button onClick={this.signInWithProvider}>Sign In With GitHub</button>;
     }
 
+=======
+
+    
+
+    
+  
+>>>>>>> de708f220cf71307d2b0fe247acb3373663ae6d2
     return (
       <div className="quiz-app">
         <button onClick={this.signOut}>Sign Out</button>
