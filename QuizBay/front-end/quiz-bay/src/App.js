@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import { supabase } from './supabaseClient';
-import { SupabaseContext } from './SupabaseContext';
+import axios from 'axios';
 import Question from './Components/Question';
-import { getAllQuizzes } from './supabaseFunctions'; // Update the path as needed.
-
-
 
 class App extends Component {
   constructor(props) {
@@ -14,39 +10,18 @@ class App extends Component {
       currentQuestionIndex: 0,
       score: 0,
     };
-
-    this.signInWithProvider = this.signInWithProvider.bind(this);
-    this.signOut = this.signOut.bind(this);
   }
 
-  async signInWithProvider() {
-    const { user, session, error } = await supabase.auth.signIn({
-      provider: 'github', // or 'google', 'facebook'
-    });
-  }
-
-  async signOut() {
-    const { error } = await supabase.auth.signOut();
-  }
-
-  componentDidMount() {
-    supabase.auth.onAuthStateChange((event, session) => {
-      console.log('Authentication state change:', event, session);
-    });
-
-    // Fetch quiz questions from Supabase
-    getAllQuizzes()
-      .then((quizzes) => {
-        if (quizzes.length > 0) {
-          const fetchedQuestions = quizzes[0].questions; // Modify this based on your Supabase schema
-          this.setState({
-            questions: fetchedQuestions,
-          });
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching quiz questions:', error);
+  async componentDidMount() {
+    try {
+      const response = await axios.get('https://opentdb.com/api.php?amount=10&type=multiple');
+      const { results } = response.data;
+      this.setState({
+        questions: results,
       });
+    } catch (error) {
+      console.error('Error fetching quiz questions:', error);
+    }
   }
 
   handleAnswer = (selectedOption, correctAnswer) => {
@@ -66,19 +41,10 @@ class App extends Component {
   render() {
     const { questions, currentQuestionIndex, score } = this.state;
     const currentQuestion = questions[currentQuestionIndex];
-    const user = supabase.auth.user();
-
-    if (!user) {
-      return <button onClick={this.signInWithProvider}>Sign In With GitHub</button>;
-    }
 
     return (
-      <SupabaseContext.Provider value={supabase}>
-      
       <div className="quiz-app">
-        <button onClick={this.signOut}>Sign Out</button>
-        
-        {currentQuestionIndex < questions.length ? (
+        {currentQuestion ? (
           <Question question={currentQuestion} handleAnswer={this.handleAnswer} />
         ) : (
           <div className="result">
@@ -86,9 +52,7 @@ class App extends Component {
             <p>Your Score: {score}/{questions.length}</p>
           </div>
         )}
-        
       </div>
-      </SupabaseContext.Provider>
     );
   }
 }
