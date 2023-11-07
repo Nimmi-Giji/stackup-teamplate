@@ -14,10 +14,10 @@ class App extends Component {
 
   async componentDidMount() {
     try {
-      const response = await axios.get('https://opentdb.com/api.php?amount=10&type=multiple');
-      const { results } = response.data;
+      const response = await axios.get('https://api.supabase.io/rest/v1/tables/questions');
+      const { data } = response.data;
       this.setState({
-        questions: results,
+        questions: data,
       });
     } catch (error) {
       console.error('Error fetching quiz questions:', error);
