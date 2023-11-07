@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { FirebaseContext } from './Firebase'; // Create Firebase context
+export const SupabaseContext = React.createContext(); //Supabase context
 
 const Auth = () => {
   const [email, setEmail] = useState('');

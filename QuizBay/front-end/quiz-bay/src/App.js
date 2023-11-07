@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from './supabaseClient';
+import { SupabaseContext } from './SupabaseContext';
 import Question from './Components/Question';
 import { getAllQuizzes } from './supabaseFunctions'; // Update the path as needed.
 
-// SUPABASE CLIENT CREATION
-const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-// END OF CLIENT CREATION
 
 class App extends Component {
   constructor(props) {
@@ -77,8 +73,11 @@ class App extends Component {
     }
 
     return (
+      <SupabaseContext.Provider value={supabase}>
+      
       <div className="quiz-app">
         <button onClick={this.signOut}>Sign Out</button>
+        
         {currentQuestionIndex < questions.length ? (
           <Question question={currentQuestion} handleAnswer={this.handleAnswer} />
         ) : (
@@ -87,7 +86,9 @@ class App extends Component {
             <p>Your Score: {score}/{questions.length}</p>
           </div>
         )}
+        
       </div>
+      </SupabaseContext.Provider>
     );
   }
 }
