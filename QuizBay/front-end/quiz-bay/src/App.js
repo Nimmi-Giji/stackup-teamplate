@@ -1,6 +1,26 @@
 import React, { Component } from 'react';
+import { createClient } from '@supabase/supabase-js';
 import Question from './Question';
 import { getAllQuizzes } from './supabaseFunctions'; // Update the path as needed.
+
+//SUPABASE CLIENT CREATION
+
+const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY;
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+//END OF CLIENT CREATION
+
+//SIGN IN
+
+async function signInWithProvider() {
+  const { user, session, error } = await supabase.auth.signIn({
+    provider: 'github', // or 'google', 'facebook'
+  });
+}
+
+//SIGN IN
 
 class App extends Component {
   constructor(props) {
