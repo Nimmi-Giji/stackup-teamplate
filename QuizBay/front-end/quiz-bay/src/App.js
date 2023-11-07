@@ -65,6 +65,8 @@ class App extends Component {
   render() {
     const { questions, currentQuestionIndex, score } = this.state;
     const currentQuestion = questions[currentQuestionIndex];
+
+    
   
     return (
       <div className="quiz-app">
