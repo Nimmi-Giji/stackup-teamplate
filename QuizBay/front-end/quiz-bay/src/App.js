@@ -34,6 +34,7 @@ class App extends Component {
 
   componentDidMount() {
     // Fetch quiz questions from Supabase
+    <button onClick={signOut}>Sign Out</button>
     getAllQuizzes()
       .then((quizzes) => {
         if (quizzes.length > 0) {
@@ -65,6 +66,8 @@ class App extends Component {
   render() {
     const { questions, currentQuestionIndex, score } = this.state;
     const currentQuestion = questions[currentQuestionIndex];
+
+    
 
     
   
