@@ -20,5 +20,7 @@ app.use(passport.session());
 //app.use('/api', authMiddleware.ensureAuthenticated, apiRoutes);
 //app.use('/auth', authRoutes);
 
-app.listen(8081);
-console.log('Server running at http://127.0.0.1:8081/');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
