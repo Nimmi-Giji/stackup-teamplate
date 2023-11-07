@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import Question from './Question';
+import Question from './Components/Question';
 import { getAllQuizzes } from './supabaseFunctions'; // Update the path as needed.
 
 // SUPABASE CLIENT CREATION
